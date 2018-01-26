@@ -8,11 +8,9 @@
 
 inputs=$1
 
-#INDIR=/bind/data_in
-#OUTDIR=/bind/data_out
+INDIR=/bind/data_in
+OUTDIR=/bind/data_out
 
-INDIR=/Users/roh17004/scratch/ibrain_dwi/100206 
-OUTDIR=/Users/roh17004/Dropbox/hw4_solution/out
 
 extract_b0 ()
 {
