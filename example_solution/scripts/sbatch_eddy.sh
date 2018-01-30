@@ -3,6 +3,8 @@
 #SBATCH --mail-user=First.Last@uconn.edu	# Your email address
 #SBATCH --nodes=1					# OpenMP requires a single node
 #SBATCH --ntasks=1					# Run a single serial task
+#SBATCH --cpus-per-task=1           # Number of cores to use
+#SBATCH --mem=4096mb				# Memory limit
 #SBATCH --time=04:00:00				# Time limit hh:mm:ss
 #SBATCH -e error_%A_%a.log			# Standard error
 #SBATCH -o output_%A_%a.log			# Standard output
@@ -16,12 +18,12 @@ export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1	#<= cpus-per-task
 
 #Define user paths
 NETID=$USER
-PROJECT=hw4
+PROJECT=martin
 
 export DIR_BASE=/scratch/${NETID}/${PROJECT}
 export DIR_RESOURCES=${DIR_BASE}/resources 	#ro
 export DIR_DATA=${DIR_BASE}/data 				#rw data
-export DIR_DATAIN=/scratch/birc_ro/ibrain_dwi/100206			#ro data
+export DIR_DATAIN=${DIR_BASE}/data_in			#ro data
 export DIR_DATAOUT=${DIR_BASE}/data_out		#rw data
 export SUBJECTS_DIR=${DIR_BASE}/freesurfer		#rw for Freesurfer
 export DIR_WORK=/work							#rw /work on HPC is 40Gb local storage

@@ -3,15 +3,16 @@
 #SBATCH --mail-user=First.Last@uconn.edu	# Your email address
 #SBATCH --nodes=1					# OpenMP requires a single node
 #SBATCH --ntasks=1					# Run a single serial task
-#SBATCH --cpus-per-task=1           # Number of cores to use
-#SBATCH --mem=2048mb				# Memory limit
-#SBATCH --time=00:10:00				# Time limit hh:mm:ss
-#SBATCH -e error_%A_%a.log				# Standard error
-#SBATCH -o output_%A_%a.log				# Standard output
-#SBATCH --job-name=dtifit			# Descriptive job name
-#SBATCH --partition=serial			# Use a serial partition 24 cores/7days
-export OMP_NUM_THREADS=1			#<= cpus-per-task
-export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1	#<= cpus-per-task
+#SBATCH --cpus-per-task=8           # Number of cores to use
+#SBATCH --mem=8192mb				# Memory limit
+#SBATCH --time=08:00:00				# Time limit hh:mm:ss
+#SBATCH -e error_%A_%a.log			# Standard error
+#SBATCH -o output_%A_%a.log			# Standard output
+#SBATCH --job-name=eddy			# Descriptive job name
+#SBATCH --partition=serial
+
+export OMP_NUM_THREADS=8			#<= cpus-per-task
+export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=18	#<= cpus-per-task
 ##### END OF JOB DEFINITION  #####
 
 #Define user paths
@@ -30,6 +31,7 @@ export DIR_SCRIPTS=${DIR_BASE}/scripts 		#ro, prepended to PATH
 
 
 # Load modules
+module load cuda/8.0.61 					#for GPU/CUDA
 module load matlab/2017a				#matlab binaries are bound
 module load singularity/2.3.1-gcc		#required to run the container
 
@@ -40,4 +42,4 @@ export LM_LICENSE_FILE=/bind/matlablicense/uits.lic
 #wrapper will bind the appropriate paths
 #environment variables are passed to the container
 
-./burc_wrapper.sh run_dtifit.sh
+./burc_wrapper.sh run_eddy_mp.sh

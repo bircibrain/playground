@@ -5,7 +5,7 @@
 #Multiband factor=3, top slice removed
 
 cd /bind/data_out
-eddy_cuda --mask=brain_mask \
+eddy_openmp --mask=brain_mask \
 --acqp=acqparams.txt \
 --index=index.txt \
 --imain=merged_dwi_cropped \

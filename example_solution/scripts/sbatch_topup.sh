@@ -17,12 +17,12 @@ export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=2	#<= cpus-per-task
 
 #Define user paths
 NETID=$USER
-PROJECT=hw4
+PROJECT=martin
 
 export DIR_BASE=/scratch/${NETID}/${PROJECT}
 export DIR_RESOURCES=${DIR_BASE}/resources 	#ro
 export DIR_DATA=${DIR_BASE}/data 				#rw data
-export DIR_DATAIN=/scratch/birc_ro/ibrain_dwi/100206			#ro data
+export DIR_DATAIN=${DIR_BASE}/data_in			#ro data
 export DIR_DATAOUT=${DIR_BASE}/data_out		#rw data
 export SUBJECTS_DIR=${DIR_BASE}/freesurfer		#rw for Freesurfer
 export DIR_WORK=/work							#rw /work on HPC is 40Gb local storage
@@ -41,4 +41,4 @@ export LM_LICENSE_FILE=/bind/matlablicense/uits.lic
 #wrapper will bind the appropriate paths
 #environment variables are passed to the container
 
-./burc_wrapper.sh run_topup.sh
+./burc_wrapper.sh /bind/scripts/run_topup.sh /bind/scripts/inputs.txt

@@ -16,7 +16,7 @@ export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1	#<= cpus-per-task
 
 #Define user paths
 NETID=$USER
-PROJECT=hw4
+PROJECT=martin
 
 export DIR_BASE=/scratch/${NETID}/${PROJECT}
 export DIR_RESOURCES=${DIR_BASE}/resources 	#ro

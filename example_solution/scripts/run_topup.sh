@@ -11,6 +11,9 @@ inputs=$1
 INDIR=/bind/data_in
 OUTDIR=/bind/data_out
 
+#clean up
+rm ${OUTDIR}/index.txt
+rm ${OUTDIR}/acqparams.txt
 
 extract_b0 ()
 {
@@ -23,9 +26,13 @@ extract_b0 ()
 	local rr=$$
 	local i=0
 	local index_i=$4
+	eval local acq="$5"
 	while [ $i -lt ${#bvals[@]} ]; do
 		if [  ${bvals[$i]} -lt 51 ]; then
+			#extract this b0
 			fslroi $b0in `printf "${prefix}.${rr}.%03d $i 1" $i`
+			#write the corresponding acquistion parameter line
+			echo "$acq" >> ${OUTDIR}/acqparams.txt
 			let index_i=index_i+1 
 		fi
 		let i=i+1
@@ -39,8 +46,8 @@ extract_b0 ()
 
 #commands to merge everything
 cmd_merge_dwi="fslmerge -t ${OUTDIR}/merged_dwi "
-cmd_merge_bval="join "
-cmd_merge_bvec="join "
+cmd_merge_bval="paste -d ' ' "
+cmd_merge_bvec="paste -d ' ' "
 
 
 offset=0
@@ -50,9 +57,10 @@ while read line; do
 	cmd_merge_dwi="$cmd_merge_dwi ${INDIR}/${a[0]}"
 	cmd_merge_bval="$cmd_merge_bval ${INDIR}/${a[1]}"
 	cmd_merge_bvec="$cmd_merge_bvec ${INDIR}/${a[2]}"
-	echo "${a[3]} ${a[4]} ${a[5]} ${a[6]}" >> ${OUTDIR}/acqparams.txt
+	acq="${a[3]} ${a[4]} ${a[5]} ${a[6]}"
+	#echo "$acq" >> ${OUTDIR}/acqparams.txt
 	prefix=`printf "${OUTDIR}/blip_%03d" $offset`
-	extract_b0 ${INDIR}/${a[1]} ${INDIR}/${a[0]} $prefix $offset
+	extract_b0 ${INDIR}/${a[1]} ${INDIR}/${a[0]} $prefix $offset "\${acq}"
 	let offset=offset+`fslnvols $prefix`
 done <<< "$(cat $inputs)"
 
@@ -69,7 +77,7 @@ fslroi ${OUTDIR}/merged_dwi ${OUTDIR}/merged_dwi_cropped 0 -1 0 -1 0 110 0 -1
 
 #topup
 cd $OUTDIR
-topup --imain=b0_all_cropped --datain=acqparams.txt --config=b02b0.cnf --out=topup —iout=corrected_b0
+topup --imain=b0_all_cropped --datain=acqparams.txt --config=b02b0.cnf --out=topup --iout=corrected_b0
 
 #create brain mask
 bet corrected_b0 brain -m
