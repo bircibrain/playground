@@ -3,7 +3,7 @@
 #SBATCH --mail-user=First.Last@uconn.edu	# Your email address
 #SBATCH --nodes=1					# OpenMP requires a single node
 #SBATCH --mem=2048mb				# Memory limit
-#SBATCH --time=04:00:00				# Time limit hh:mm:ss
+#SBATCH --time=08:00:00				# Time limit hh:mm:ss
 #SBATCH -e error_%A_%a.log				# Standard error
 #SBATCH -o output_%A_%a.log				# Standard output
 #SBATCH --job-name=bedpostx			# Descriptive job name
