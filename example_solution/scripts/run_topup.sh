@@ -65,8 +65,8 @@ while read line; do
 done <<< "$(cat $inputs)"
 
 `$cmd_merge_dwi`
-echo "$($cmd_merge_bvec)" > ${OUTDIR}/bvecs
-echo "$($cmd_merge_bval)" > ${OUTDIR}/bvals
+eval "$cmd_merge_bvec" > ${OUTDIR}/bvecs
+eval "$cmd_merge_bval" > ${OUTDIR}/bvals
 
 #merge b0
 fslmerge -t ${OUTDIR}/b0_all ${OUTDIR}/blip_*
