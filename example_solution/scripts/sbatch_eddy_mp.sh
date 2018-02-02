@@ -12,7 +12,7 @@
 #SBATCH --partition=serial
 
 export OMP_NUM_THREADS=8			#<= cpus-per-task
-export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=18	#<= cpus-per-task
+export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=8	#<= cpus-per-task
 ##### END OF JOB DEFINITION  #####
 
 #Define user paths
